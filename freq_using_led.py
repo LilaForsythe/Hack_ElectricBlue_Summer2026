@@ -123,6 +123,15 @@ while True:
             sleep_ms(500)
             print("\nWaiting for next press...")
 
+        if not buttonF4.value():
+            print("Playing note: {} Hz".format(notes["F4"]))
+            play_i2s_tone(notes["F4"], 1000)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100)     # Rest for 100ms
+            
+            # Debounce delay: limits you to triggering once every 500ms
+            sleep_ms(500)
+            print("\nWaiting for next press...")
+            
         if not buttonG4.value():
             print("Playing note: {} Hz".format(notes["G4"]))
             play_i2s_tone(notes["G4"], 1000)  # Play each note for 1000ms (1 second)
