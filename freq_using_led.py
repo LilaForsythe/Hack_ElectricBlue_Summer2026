@@ -15,7 +15,7 @@ BUTTONB4_PIN = 9  # Pin GP9 (Physical Pin 12)
 BUTTONC5_PIN = 10 # Pin GP10 (Physical Pin 14)
 
 #potentiometer for volume control
-adc = ADC(Pin(26))  # GP26 (Physical Pin 31) for analog input
+adc = ADC(Pin(27))  # GP27 (Physical Pin 32) for analog input
 
 SCK_PIN = 0     # BCLK on GP0 (Physical Pin 1)
 WS_PIN = 1      # LRC/WS on GP1 (Physical Pin 2)
