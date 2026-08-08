@@ -1,7 +1,7 @@
 import os
 import math
 import struct
-from machine import I2S, Pin
+from machine import I2S, Pin, ADC
 from utime import sleep_ms
 
 # --- Configuration Constants ---
@@ -14,10 +14,14 @@ BUTTONA4_PIN = 8  # Pin GP8 (Physical Pin 11)
 BUTTONB4_PIN = 9  # Pin GP9 (Physical Pin 12)
 BUTTONC5_PIN = 10 # Pin GP10 (Physical Pin 14)
 
+#potentiometer for volume control
+adc = ADC(Pin(26))  # GP26 (Physical Pin 31) for analog input
+
 SCK_PIN = 0     # BCLK on GP0 (Physical Pin 1)
 WS_PIN = 1      # LRC/WS on GP1 (Physical Pin 2)
 SD_PIN = 2      # DIN on GP2 (Physical Pin 4)
 
+volume = 8000 #sample volume for now
 SAMPLE_RATE = 22050  # Matches your amplifier's sample rate setup
 BUFFER_SIZE = 2048   # Smaller, responsive buffer for real-time tones
 
@@ -44,13 +48,23 @@ audio_out = I2S(
     ibuf=10240
 )
 
+
+#controlling volume with potentiometer
+def read_adc_percentage():
+    value = adc.read_u16()
+    percentage = (value / 65535) * 100
+    return percentage
+
+volume = int((read_adc_percentage() / 100) * 15000)  # Scale to 16-bit range
+
+
 # --- Tone Scale Frequencies ---
 notes = {"C4": 261.63, "D4": 293.66, "E4": 329.63, "F4": 349.23, "G4": 392.00, "A4": 440.00, "B4": 493.88, "C5": 523.25}
 # notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25]  # C4 to C5
 
 # --- Digital Audio Generator ---
 
-def play_i2s_tone(frequency, duration_ms):
+def play_i2s_tone(frequency, duration_ms, volume):
     """Generates a perfect digital sine wave tone and writes it to the I2S amp."""
     if frequency == 0:
         # Playing a rest / silence
@@ -68,7 +82,7 @@ def play_i2s_tone(frequency, duration_ms):
     for i in range(int(samples_per_cycle)):
         # Generate sine wave math value between -32767 and 32767 (max 16-bit volume)
         # Using 8000 here to keep the volume at a comfortable medium level
-        val = int(8000 * math.sin(2 * math.pi * i / samples_per_cycle))
+        val = int(volume * math.sin(2 * math.pi * i / samples_per_cycle))
         cycle_buffer += struct.pack('<h', val)
     
     # Repeat the cycle buffer until the desired duration is met
@@ -85,8 +99,8 @@ def play_digital_scale():
     print("Playing digital tone scale via amplifier...")
     for note in notes:
         print("Playing note: {} Hz".format(note))
-        play_i2s_tone(note, 1000)  # Play each note for 1000ms (1 second)
-        play_i2s_tone(0, 100)     # Rest for 100ms
+        play_i2s_tone(note, 1000, 8000)  # Play each note for 1000ms (1 second)
+        play_i2s_tone(0, 100, 0)     # Rest for 100ms
     print("Scale finished.")
 
 # --- Primary Application Loop ---
@@ -97,8 +111,8 @@ while True:
         # Check if the button is physically pressed (LOW / 0 / False)
         if not buttonC4.value():
             print("Playing note: {} Hz".format(notes["C4"]))
-            play_i2s_tone(notes["C4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["C4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
             #play_digital_scale()
             
             # Debounce delay: limits you to triggering once every 500ms
@@ -107,8 +121,8 @@ while True:
 
         if not buttonD4.value():
             print("Playing note: {} Hz".format(notes["D4"]))
-            play_i2s_tone(notes["D4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["D4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
             
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -116,8 +130,8 @@ while True:
 
         if not buttonE4.value():
             print("Playing note: {} Hz".format(notes["E4"]))
-            play_i2s_tone(notes["E4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["E4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
             
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -125,8 +139,8 @@ while True:
 
         if not buttonF4.value():
             print("Playing note: {} Hz".format(notes["F4"]))
-            play_i2s_tone(notes["F4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["F4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
             
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -134,8 +148,8 @@ while True:
             
         if not buttonG4.value():
             print("Playing note: {} Hz".format(notes["G4"]))
-            play_i2s_tone(notes["G4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["G4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
 
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -143,8 +157,8 @@ while True:
 
         if not buttonA4.value():
             print("Playing note: {} Hz".format(notes["A4"]))
-            play_i2s_tone(notes["A4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["A4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
 
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -152,8 +166,8 @@ while True:
 
         if not buttonB4.value():
             print("Playing note: {} Hz".format(notes["B4"]))
-            play_i2s_tone(notes["B4"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["B4"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
 
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
@@ -161,8 +175,8 @@ while True:
 
         if not buttonC5.value():
             print("Playing note: {} Hz".format(notes["C5"]))
-            play_i2s_tone(notes["C5"], 1000)  # Play each note for 1000ms (1 second)
-            play_i2s_tone(0, 100)     # Rest for 100ms
+            play_i2s_tone(notes["C5"], 1000, volume)  # Play each note for 1000ms (1 second)
+            play_i2s_tone(0, 100, 0)     # Rest for 100ms
 
             # Debounce delay: limits you to triggering once every 500ms
             sleep_ms(500)
