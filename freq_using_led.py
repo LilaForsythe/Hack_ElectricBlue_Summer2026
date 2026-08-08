@@ -55,7 +55,6 @@ def read_adc_percentage():
     percentage = (value / 65535) * 100
     return percentage
 
-volume = int((read_adc_percentage() / 100) * 15000)  # Scale to 16-bit range
 
 
 # --- Tone Scale Frequencies ---
@@ -108,6 +107,8 @@ print("System ready. Press the button to play the 8 digital notes...")
 
 while True:
     try:
+        volume = int((read_adc_percentage() / 100) * 15000)  # Scale to 16-bit range
+
         # Check if the button is physically pressed (LOW / 0 / False)
         if not buttonC4.value():
             print("Playing note: {} Hz".format(notes["C4"]))
