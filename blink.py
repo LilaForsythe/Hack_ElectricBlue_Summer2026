@@ -4,6 +4,8 @@ from utime import sleep_ms
 
 # --- Configuration Constants ---
 BUTTON_PIN = 3  # Pin GP3 (Physical Pin 5)
+LED_PIN = 16    # GPIO 16 (Physical Pin 21) - 100% Verified!
+
 SCK_PIN = 0     # BCLK on GP0 (Physical Pin 1)
 WS_PIN = 1      # LRC/WS on GP1 (Physical Pin 2)
 SD_PIN = 2      # DIN on GP2 (Physical Pin 4)
@@ -13,9 +15,10 @@ BUFFER_SIZE = 10240  # 10KB static buffer allocation
 
 # --- Hardware Initialization ---
 button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
+led = Pin(LED_PIN, Pin.OUT)  # Configure GPIO 16 as a digital output
+led.off()                    # Ensure it starts turned off
 
 # Keep the I2S system constantly alive and steady.
-# This prevents the RP2350 PIO state machines from crashing.
 audio_out = I2S(
     0, 
     sck=Pin(SCK_PIN), 
@@ -64,7 +67,13 @@ while True:
     try:
         # Check if the button is physically pressed (LOW / 0 / False)
         if not button.value():
+            print("Button detected! Toggling LED on...")
+            led.on()  # Turn the LED on
+            
             play_wav_file(WAV_FILE)
+            
+            led.off()  # Turn the LED off when audio completes
+            print("Playback done. LED off.")
             
             # Debounce delay: limits you to triggering once every 400ms
             sleep_ms(400)
@@ -77,4 +86,5 @@ while True:
 
 # Only shut down when you completely terminate the program with Ctrl+C
 audio_out.deinit()
+led.off()  # Clean up and ensure LED is off on exit
 print("Finished.")
