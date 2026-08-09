@@ -44,6 +44,8 @@ function App() {
       const text = String(event.data).trim()
       console.log('Message from server:', text)
 
+      console.log('Attempting to parse incoming message')
+
       let bolt = null
       let parsed = null
       try {
@@ -53,6 +55,8 @@ function App() {
         // Not JSON — treat raw text as bolt id
         bolt = text
       }
+
+      console.log('After parse, bolt candidate:', bolt, 'parsed:', parsed)
 
       if (typeof bolt === 'string') {
         bolt = bolt.toLowerCase()
@@ -64,6 +68,8 @@ function App() {
           bolt = found[1].toLowerCase()
         }
       }
+
+      console.log('Final bolt chosen after regex check:', bolt)
 
       if (boltColors[bolt]) {
         triggerLightning(bolt)
@@ -95,6 +101,7 @@ function App() {
   }, [])
 
   const triggerLightning = (bolt) => {
+    console.log('TriggerLightning called with:', bolt)
     setCurrentBolt(bolt)
     if (timerRef.current) {
       clearTimeout(timerRef.current)
