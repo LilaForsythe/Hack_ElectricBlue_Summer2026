@@ -180,6 +180,31 @@
 
 .lightning-row { width: 900px; margin: -12px auto 0; display: flex; justify-content: space-between; gap:12px; }
 
+.bolt-info-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.bolt-info-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bolt-info-color {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.bolt-info-note {
+  font-size: 14px;
+  color: var(--text-muted, #666);
+}
+
 .bolt { width:100px; opacity:0.0; transition: opacity 0.15s; }
 
 .bolt.active { opacity:1; }

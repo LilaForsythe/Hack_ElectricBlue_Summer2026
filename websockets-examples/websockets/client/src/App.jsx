@@ -124,8 +124,48 @@ function App() {
         <p style={{ fontSize: '18px', marginBottom: '20px' }}>
           Team Members: Leah Cheng, David Figueroa, Lila Forsythe, and Thai Phan
         </p>
+        <p style={{ fontSize: '18px', marginBottom: '20px' }}>
+          Instrument name: STORMCASTER
+        </p>
+        <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
+          Bolts:
+        </p>
+        <div className="bolt-info-grid">
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Red</div>
+            <div className="bolt-info-note">C4: 261.63</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Orange</div>
+            <div className="bolt-info-note">D4: 293.66</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Yellow</div>
+            <div className="bolt-info-note">E4: 329.63</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Green</div>
+            <div className="bolt-info-note">F4: 349.23</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Blue</div>
+            <div className="bolt-info-note">G4: 392.00</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Purple</div>
+            <div className="bolt-info-note">A4: 440.00</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Magenta</div>
+            <div className="bolt-info-note">B4: 493.88</div>
+          </div>
+          <div className="bolt-info-cell">
+            <div className="bolt-info-color">Pink</div>
+            <div className="bolt-info-note">C5: 523.25</div>
+          </div>
+        </div>
 
-        <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px' , marginTop: '-20px'}} />
+        <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
       </section>
       <section className="cloud-section">
             <img src={cloud_img} alt="Cloud" style={{ width: '1000px', height: 'auto', marginBottom: '-132px' }} />
