@@ -132,10 +132,10 @@ function App() {
         <p style={{ fontSize: '18px', marginBottom: '20px' }}>
           Team Members: Leah Cheng, David Figueroa, Lila Forsythe, and Thai Phan
         </p>
-        <p style={{ fontSize: '18px', marginBottom: '20px' }}>
+        <p style={{ fontSize: '18px' , marginBottom: '-40px'}}>
           Instrument name: STORMCASTER
         </p>
-        <p style={{ fontSize: '16px', marginBottom: '20px'}}>
+        <p style={{ fontSize: '16px', margin: '50px'}}>
           Description: Our theme is weather based as our name is Electric Blue so our instrument shape took inspiration from that.
           Our instrument is a cloud with playable drops for each note. Each drop triggers a light on the cloud. 
         </p>
@@ -184,19 +184,19 @@ function App() {
         <div className="member-info-grid">
           <div className="member-info-cell">
             <div className="member-info-name">Leah Cheng</div>
-            <div className="member-info-desc">tbd</div>
+            <div className="member-info-desc">Major: Mechanical Engineering | Worked on some of the CAD, did the soldering for the buttons painted the cloud, and is our main performer.</div>
           </div>
           <div className="member-info-cell">
             <div className="member-info-name">Lila Forsythe</div>
-            <div className="member-info-desc">tbd</div>
+            <div className="member-info-desc">Major: Computer Science | Worked on some of the CAD, came up with the design and theme for the instrument, made the website and the visual aspect.</div>
           </div>
           <div className="member-info-cell">
             <div className="member-info-name">David Figueroa</div>
-            <div className="member-info-desc">tbd</div>
+            <div className="member-info-desc">Major: Electrical Engineering | Worked on the circuits and the communication between the microcontroller and the hardware. Figured out how the audio output works.</div>
           </div>
           <div className="member-info-cell">
             <div className="member-info-name">Thai Phan</div>
-            <div className="member-info-desc">tbd</div>
+            <div className="member-info-desc">Major: Mechanical Engineering | </div>
           </div>
         </div>
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
