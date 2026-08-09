@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import teamLogo from './assets/ElectricBlue_logo.jpg'
+import teamPhoto from './assets/band-photo.png'
 import cloud_img from './assets/cloud_img.png'
 import red_lightning from './assets/red_lightning.png'
 import orange_lightning from './assets/orange_lightning.png'
@@ -166,6 +167,7 @@ function App() {
         </div>
 
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
+        <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
       </section>
       <section className="cloud-section">
             <img src={cloud_img} alt="Cloud" style={{ width: '1000px', height: 'auto', marginBottom: '-132px' }} />
