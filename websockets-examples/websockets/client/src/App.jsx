@@ -58,6 +58,13 @@ function App() {
         bolt = bolt.toLowerCase()
       }
 
+      if (!boltColors[bolt] && typeof bolt === 'string') {
+        const found = bolt.match(/\b(red|orange|yellow|green|blue|purple|magenta|pink)\b/i)
+        if (found) {
+          bolt = found[1].toLowerCase()
+        }
+      }
+
       if (boltColors[bolt]) {
         triggerLightning(bolt)
       } else {
