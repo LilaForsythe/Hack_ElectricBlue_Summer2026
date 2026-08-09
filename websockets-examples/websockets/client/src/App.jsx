@@ -47,13 +47,21 @@ function App() {
       let parsed = null
       try {
         parsed = JSON.parse(text)
-        bolt = parsed.bolt ?? text
+        bolt = parsed.bolt ?? parsed.original_message ?? text
       } catch (err) {
         // Not JSON — treat raw text as bolt id
         bolt = text
       }
 
-      if (bolt) triggerLightning(bolt)
+      if (typeof bolt === 'string') {
+        bolt = bolt.toLowerCase()
+      }
+
+      if (boltColors[bolt]) {
+        triggerLightning(bolt)
+      } else {
+        console.warn('Unknown bolt color from server:', bolt)
+      }
 
       setChatLogs(prev => [...prev, {
         message: (parsed && parsed.original_message) || text,
@@ -93,18 +101,18 @@ function App() {
   const handleKeyPress = (e) => {
     if (e.key !== 'Enter') return
     const bolt = message.trim().toLowerCase()
-    if(!bolt) return
-    
-    //trigger bolt for testing
-    if(boltColors[bolt]) triggerLightning(bolt)
-      
-    //forward to server
-    if (wsRef.cirrent?.readyState === WebSocket.OPEN) {
+    if (!bolt) return
+
+    // trigger bolt for testing
+    if (boltColors[bolt]) triggerLightning(bolt)
+    else console.warn('Unknown test bolt color:', bolt)
+
+    // forward to server
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(message)
     }
-      
+
     setMessage('')
-    
   }
 
   return (

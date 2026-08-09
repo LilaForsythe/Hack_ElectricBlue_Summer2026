@@ -37,6 +37,7 @@ async def handle_client(websocket):
             response = {
                 "status": "received",
                 "original_message": message,
+                "bolt": message,
                 "timestamp": timestamp
             }
             # Send to all connected clients
