@@ -199,11 +199,11 @@ function App() {
             <div className="member-info-desc">Major: Mechanical Engineering | Worked on some aspects of the website</div>
           </div>
         </div>
-        <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
-        <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
+        <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
+        <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
       </section>
       <section className="cloud-section">
-            <img src={cloud_img} alt="Cloud" style={{ width: '1000px', height: 'auto', marginBottom: '-132px' }} />
+            <img src={cloud_img} alt="Cloud" style={{ width: '1000px', height: 'auto', marginBottom: '-132px', background: '#87CEEB' }} />
       </section>
       <section className="lightning-row">
         {Object.entries(boltColors).map(([id, src]) => (
