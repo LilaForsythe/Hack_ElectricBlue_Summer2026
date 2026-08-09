@@ -152,7 +152,6 @@ function App() {
             fontSize: '16px'
           }}
         />
-
       </section>
     </>
   )
