@@ -196,7 +196,7 @@ function App() {
           </div>
           <div className="member-info-cell">
             <div className="member-info-name">Thai Phan</div>
-            <div className="member-info-desc">Major: Mechanical Engineering | </div>
+            <div className="member-info-desc">Major: Mechanical Engineering | Worked on some aspects of the website</div>
           </div>
         </div>
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
