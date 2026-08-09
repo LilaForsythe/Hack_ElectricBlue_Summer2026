@@ -7,9 +7,9 @@ from datetime import datetime
 # Configuration
 SERIAL_PORT = 'COM7'  # Change to 'COM3' on Windows, '/dev/ttyUSB0' for other boards
 BAUD_RATE = 115200
-WEBSOCKET_URL = 'ws://localhost:8765'
+WEBSOCKET_URL = 'ws://192.168.50.118:8765'
 # ws://localhost:8765
-# ws://192.168.0.105
+# ws://192.168.50.118
 
 async def read_serial_and_send():
     """Read from serial port and send to WebSocket server"""
@@ -18,7 +18,7 @@ async def read_serial_and_send():
         ser = Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
         print(f"Connected to {SERIAL_PORT} at {BAUD_RATE} baud")
         # Connect to WebSocket server
-        async with connect(WEBSOCKET_URL) as websocket:
+        async with connect(WEBSOCKET_URL, ping_interval=None) as websocket:
             print(f"Connected to WebSocket server at {WEBSOCKET_URL}")
             try:
                 while True:
@@ -30,7 +30,7 @@ async def read_serial_and_send():
                             # Send to WebSocket server
                             await websocket.send(line)
                     # Small delay to prevent CPU spinning
-                    await asyncio.sleep(0.01)
+                    await asyncio.sleep(0.1)
             except KeyboardInterrupt:
                 print("\nStopping...")
             finally:
