@@ -193,7 +193,20 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  padding: 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
 }
+
+.bolt-red { border-color: #e63946; }
+.bolt-orange { border-color: #f77f00; }
+.bolt-yellow { border-color: #ffb703; }
+.bolt-green { border-color: #2a9d8f; }
+.bolt-blue { border-color: #0077b6; }
+.bolt-purple { border-color: #8e44ad; }
+.bolt-magenta { border-color: #d33f8d; }
+.bolt-pink { border-color: #ff6b81; }
 
 .bolt-info-color {
   font-weight: 700;

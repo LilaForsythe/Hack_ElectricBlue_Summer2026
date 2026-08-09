@@ -143,35 +143,35 @@ function App() {
           Bolts:
         </p>
         <div className="bolt-info-grid">
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-red">
             <div className="bolt-info-color">Red</div>
             <div className="bolt-info-note">C4: 261.63</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-orange">
             <div className="bolt-info-color">Orange</div>
             <div className="bolt-info-note">D4: 293.66</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-yellow">
             <div className="bolt-info-color">Yellow</div>
             <div className="bolt-info-note">E4: 329.63</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-green">
             <div className="bolt-info-color">Green</div>
             <div className="bolt-info-note">F4: 349.23</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-blue">
             <div className="bolt-info-color">Blue</div>
             <div className="bolt-info-note">G4: 392.00</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-purple">
             <div className="bolt-info-color">Purple</div>
             <div className="bolt-info-note">A4: 440.00</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-magenta">
             <div className="bolt-info-color">Magenta</div>
             <div className="bolt-info-note">B4: 493.88</div>
           </div>
-          <div className="bolt-info-cell">
+          <div className="bolt-info-cell bolt-pink">
             <div className="bolt-info-color">Pink</div>
             <div className="bolt-info-note">C5: 523.25</div>
           </div>
