@@ -195,14 +195,14 @@ def play_i2s_tone(frequency, duration_ms, volume, vibrato=False, bitcrush=False)
             bytes_written += len(chunk)
 
 note_buttons = [
-    (buttonC4, "C4", notes["C4"]),
-    (buttonD4, "D4", notes["D4"]),
-    (buttonE4, "E4", notes["E4"]),
-    (buttonF4, "F4", notes["F4"]),
-    (buttonG4, "G4", notes["G4"]),
-    (buttonA4, "A4", notes["A4"]),
-    (buttonB4, "B4", notes["B4"]),
-    (buttonC5, "C5", notes["C5"]),
+    (buttonC4, "C4", notes["C4"], "red"),
+    (buttonD4, "D4", notes["D4"], "orange"),
+    (buttonE4, "E4", notes["E4"], "yellow"),
+    (buttonF4, "F4", notes["F4"], "green"),
+    (buttonG4, "G4", notes["G4"], "blue"),
+    (buttonA4, "A4", notes["A4"], "purple"),
+    (buttonB4, "B4", notes["B4"], "magenta"),
+    (buttonC5, "C5", notes["C5"], "pink"),
 ]
 
 print("[SYSTEM] Ready! LEDs will mirror the played notes.")
@@ -235,17 +235,18 @@ while True:
 
         # Check for active button press
         active_btn = None
-        for btn, name, freq in note_buttons:
+        for btn, name, freq, color in note_buttons:
             if not btn.value():
-                active_btn = (btn, name, freq)
+                active_btn = (btn, name, freq, color)
                 break
 
         if active_btn:
-            btn, name, freq = active_btn
+            btn, name, freq, color = active_btn
             vol = get_volume()
             
             print(f"[ACTION] Note Played: {name} ({freq} Hz) | Volume level: {vol}")
-
+            print(f"{color}")
+            
             # Turn on the corresponding LED
             print(f"   -> [LED] {name} is played, turning LED ON")
             leds[name].on()
