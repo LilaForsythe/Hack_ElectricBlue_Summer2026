@@ -1,6 +1,6 @@
 import asyncio
-import serial
-import websockets
+from serial import Serial, SerialException
+from websockets import connect
 import json
 from datetime import datetime
 
@@ -14,10 +14,10 @@ async def read_serial_and_send():
     """Read from serial port and send to WebSocket server"""
     try:
         # Open serial connection
-        ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
+        ser = Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
         print(f"Connected to {SERIAL_PORT} at {BAUD_RATE} baud")
         # Connect to WebSocket server
-        async with websockets.connect(WEBSOCKET_URL) as websocket:
+        async with connect(WEBSOCKET_URL) as websocket:
             print(f"Connected to WebSocket server at {WEBSOCKET_URL}")
             try:
                 while True:
@@ -38,7 +38,7 @@ async def read_serial_and_send():
     except FileNotFoundError:
         print(f"Error: Could not find serial port {SERIAL_PORT}")
         print("Make sure your RPi Pico is connected and the port is correct.")
-    except serial.SerialException as e:
+    except SerialException as e:
         print(f"Serial Error: {e}")
     except Exception as e:
         print(f"Error: {e}")
