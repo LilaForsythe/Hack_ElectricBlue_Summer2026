@@ -266,10 +266,18 @@
     .track{grid-template-columns:2rem 1fr;}
     .track audio{grid-column:1 / -1;width:100%;}
   }
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.001s !important;transition-duration:0.001s !important;}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
+
+  * {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+}
+
 /* =========================================================
    CLOUD DECORATIONS
 ========================================================= */
@@ -371,6 +379,7 @@ body {
     transform: translateX(-30px) scale(.8);
   }
 }
+      }
 </style>
 </head>
 <body>
