@@ -279,31 +279,27 @@
 }
 
 /* =========================================================
-   CLOUD DECORATIONS
+   DARK BLUE CLOUD DECORATIONS
 ========================================================= */
-
-body {
-  position: relative;
-  overflow-x: hidden;
-}
 
 .cloud {
   position: absolute;
   width: 180px;
   height: 55px;
-  background: #f4f8ff;
+  background: #8fb3f5;
   border-radius: 60px;
-  opacity: 0.9;
+  opacity: 0.65;
   pointer-events: none;
   z-index: 0;
-  filter: blur(0.2px);
+  filter: blur(0.5px);
+  box-shadow: 0 8px 25px rgba(23, 70, 199, 0.15);
 }
 
 .cloud::before,
 .cloud::after {
   content: "";
   position: absolute;
-  background: #f4f8ff;
+  background: #8fb3f5;
   border-radius: 50%;
 }
 
@@ -321,62 +317,64 @@ body {
   bottom: 10px;
 }
 
+/* Individual clouds */
+
 .cloud-1 {
-  top: 110px;
-  left: -60px;
+  top: 120px;
+  left: -70px;
   transform: scale(1.1);
   animation: cloudFloat1 9s ease-in-out infinite;
 }
 
 .cloud-2 {
-  top: 260px;
+  top: 300px;
   right: -70px;
-  transform: scale(.8);
-  opacity: .7;
+  transform: scale(0.8);
+  opacity: 0.55;
   animation: cloudFloat2 12s ease-in-out infinite;
 }
 
 .cloud-3 {
-  top: 650px;
+  top: 700px;
   left: -90px;
-  transform: scale(.65);
-  opacity: .55;
+  transform: scale(0.65);
+  opacity: 0.4;
   animation: cloudFloat1 14s ease-in-out infinite reverse;
 }
 
 .cloud-4 {
-  top: 1050px;
+  top: 1100px;
   right: -80px;
   transform: scale(1);
-  opacity: .65;
+  opacity: 0.5;
   animation: cloudFloat2 11s ease-in-out infinite reverse;
 }
 
 .cloud-5 {
   top: 1600px;
   left: -70px;
-  transform: scale(.75);
-  opacity: .5;
+  transform: scale(0.75);
+  opacity: 0.35;
   animation: cloudFloat1 13s ease-in-out infinite;
 }
 
 @keyframes cloudFloat1 {
   0%, 100% {
-    transform: translateX(0) scale(1.1);
+    margin-left: 0;
   }
 
   50% {
-    transform: translateX(25px) scale(1.1);
+    margin-left: 25px;
   }
 }
 
 @keyframes cloudFloat2 {
   0%, 100% {
-    transform: translateX(0) scale(.8);
+    margin-right: 0;
   }
 
   50% {
-    transform: translateX(-30px) scale(.8);
+    margin-right: 30px;
   }
 }
       }
