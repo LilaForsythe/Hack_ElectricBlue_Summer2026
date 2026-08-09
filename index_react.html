@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electric Blue — Stormcaster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  /* =========================================================
+     TOKENS
+  ========================================================= */
+:root{
+  --void:#ffffff;
+  --panel:#f7f9fc;
+  --panel-2:#eef3f9;
+  --line:#d9e1ec;
+
+  --blue:#1746c7;
+  --violet:#315bd6;
+  --magenta:#1746c7;
+
+  --ink:#111827;
+  --muted:#5f6b7a;
+
+  --font-display:'Rajdhani','Arial Narrow',sans-serif;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
+
+  --maxw:1100px;
+}
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:.01em;margin:0;}
+  a{color:var(--blue);}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--blue);
+    display:flex;align-items:center;gap:.5em;
+    margin-bottom:.9rem;
+  }
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--blue);display:inline-block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:3px;}
+
+  /* =========================================================
+     NAV
+  ========================================================= */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(6,10,18,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink);}
+  .brand svg{width:28px;height:28px;}
+  .brand span{font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:.03em;}
+  .nav-links{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;}
+  .nav-links a{color:var(--muted);text-decoration:none;padding:.4rem 0;border-bottom:1px solid transparent;transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.live{color:var(--blue);}
+  .nav-links a.live::before{content:"● ";}
+
+  /* =========================================================
+     HERO
+  ========================================================= */
+  .hero{
+    position:relative;overflow:hidden;
+    padding:96px 0 84px;
+    border-bottom:1px solid var(--line);
+  }
+  .wire-bg{
+    position:absolute;inset:0;z-index:0;opacity:.55;
+    transition:opacity .2s;
+  }
+  .wire-bg.pulse{opacity:.95;}
+  .hero .wrap{position:relative;z-index:1;}
+  .hero .tag{font-family:var(--font-mono);font-size:.8rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;}
+  .hero h1{
+    font-size:clamp(2.8rem,7vw,5.2rem);
+    line-height:.95;
+    background:linear-gradient(90deg,var(--blue),var(--violet) 60%,var(--magenta));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:1rem;
+  }
+  .hero p.lede{font-size:1.1rem;color:var(--muted);max-width:560px;margin-bottom:2.2rem;}
+  .hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-mono);font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;
+    padding:.85rem 1.4rem;border-radius:3px;border:1px solid var(--line);
+    background:var(--panel);color:var(--ink);text-decoration:none;cursor:pointer;
+    display:inline-flex;align-items:center;gap:.5rem;transition:border-color .15s,transform .1s;
+  }
+  .btn:hover{border-color:var(--blue);}
+  .btn:active{transform:scale(.98);}
+  .btn.primary{background:linear-gradient(90deg,var(--blue),var(--violet));color:#03080f;border:none;font-weight:600;}
+  .btn.primary:hover{filter:brightness(1.08);}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* =========================================================
+     SECTIONS (shared)
+  ========================================================= */
+  .section{padding:88px 0;border-bottom:1px solid var(--line);}
+  .section h2{font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:.4rem;}
+  .section .intro{color:var(--muted);max-width:640px;margin-bottom:2.6rem;}
+  .edit-note{
+    font-family:var(--font-mono);font-size:.7rem;color:#4a5b73;
+    border:1px dashed var(--line);padding:.5rem .7rem;border-radius:3px;
+    margin-top:.6rem;display:inline-block;
+  }
+
+  /* =========================================================
+     INSTRUMENT
+  ========================================================= */
+  .instrument-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:start;}
+  .photo-slot{
+    aspect-ratio:4/3;border:1px dashed var(--line);border-radius:6px;
+    background:
+      linear-gradient(135deg,var(--panel) 0%,var(--panel-2) 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:#3d4f68;text-align:center;padding:1rem;
+  }
+  .photo-slot .glyph{font-size:2rem;margin-bottom:.5rem;}
+  .photo-slot span{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;}
+  .fx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem;}
+  .fx-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1.1rem 1rem;
+  }
+  .fx-card .fx-name{font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:.3rem;}
+  .fx-card .fx-desc{font-size:.85rem;color:var(--muted);}
+  .fx-card .fx-tag{font-family:var(--font-mono);font-size:.65rem;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem;display:block;}
+  .spec-list{list-style:none;margin:1.6rem 0 0;padding:0;font-family:var(--font-mono);font-size:.85rem;}
+  .spec-list li{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--line);color:var(--muted);}
+  .spec-list li b{color:var(--ink);font-weight:500;}
+
+  /* =========================================================
+     BAND
+  ========================================================= */
+  .band-photo{aspect-ratio:21/8;margin-bottom:2.6rem;}
+  .members{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;}
+  .member{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .member .photo-slot{aspect-ratio:1/1;border:none;border-radius:0;border-bottom:1px solid var(--line);}
+  .member .meta{padding:1rem 1.1rem;}
+  .member .name{font-family:var(--font-display);font-weight:700;font-size:1.1rem;}
+  .member .role{font-family:var(--font-mono);font-size:.68rem;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin:.2rem 0 .5rem;}
+  .member .bio{font-size:.82rem;color:var(--muted);}
+
+  /* =========================================================
+     SETLIST
+  ========================================================= */
+  .track{
+    display:grid;grid-template-columns:2.4rem 1fr auto;gap:1rem;align-items:center;
+    padding:1.1rem 0;border-bottom:1px solid var(--line);
+  }
+  .track:last-child{border-bottom:none;}
+  .track .num{font-family:var(--font-mono);color:var(--blue);font-size:.9rem;}
+  .track .title{font-family:var(--font-display);font-weight:600;font-size:1.15rem;}
+  .track .sub{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;}
+  .track audio{height:32px;width:240px;}
+  .runtime-note{font-family:var(--font-mono);font-size:.75rem;color:var(--muted);margin-top:1.2rem;}
+
+  /* =========================================================
+     LIVE CONSOLE
+  ========================================================= */
+  .console{background:radial-gradient(ellipse at 30% 0%,rgba(139,92,246,.08),transparent 60%),var(--void);}
+  .console-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:1.8rem;overflow:hidden;
+  }
+  .console-top{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:1.6rem;}
+  .status-pill{
+    font-family:var(--font-mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:.4rem .8rem;border-radius:20px;border:1px solid var(--line);color:var(--muted);
+    display:inline-flex;align-items:center;gap:.5rem;
+  }
+  .status-pill .dot{width:8px;height:8px;border-radius:50%;background:#4a5b73;}
+  .status-pill.connected{color:#7ef7c0;border-color:#1f4d3b;}
+  .status-pill.connected .dot{background:#3ef2a0;box-shadow:0 0 8px #3ef2a0;}
+  .console-actions{display:flex;gap:.6rem;}
+
+  .readout-row{display:grid;grid-template-columns:1fr 220px;gap:1.6rem;margin-bottom:1.4rem;}
+  .readout{
+    background:var(--void);border:1px solid var(--line);border-radius:6px;
+    padding:1.6rem;text-align:center;
+  }
+  .readout .label{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem;}
+  .readout .note{
+    font-family:var(--font-mono);font-size:3.6rem;font-weight:600;color:var(--blue);
+    text-shadow:0 0 22px rgba(0,229,255,.5);
+    min-height:1.1em;
+  }
+  .vol-box{background:var(--void);border:1px solid var(--line);border-radius:6px;padding:1.6rem 1.4rem;display:flex;flex-direction:column;justify-content:center;}
+  .vol-box .label{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem;}
+  .vol-track{height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden;border:1px solid var(--line);}
+  .vol-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--magenta));transition:width .08s linear;}
+  .vol-pct{font-family:var(--font-mono);font-size:.85rem;color:var(--muted);margin-top:.5rem;text-align:right;}
+
+  canvas#vizCanvas{
+    width:100%;height:220px;display:block;border-radius:6px;border:1px solid var(--line);
+    background:var(--void);margin-bottom:1.4rem;
+  }
+
+  .fx-lights{display:flex;gap:1rem;margin-bottom:1.4rem;flex-wrap:wrap;}
+  .fx-light{
+    display:flex;align-items:center;gap:.5rem;
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    border:1px solid var(--line);border-radius:20px;padding:.4rem .8rem;
+  }
+  .fx-light .bulb{width:9px;height:9px;border-radius:50%;background:#33445c;}
+  .fx-light.active{color:var(--ink);border-color:var(--blue);}
+  .fx-light.active .bulb{background:var(--blue);box-shadow:0 0 8px var(--blue);}
+
+  .history{display:flex;gap:.4rem;flex-wrap:wrap;min-height:2rem;}
+  .history .chip{
+    font-family:var(--font-mono);font-size:.72rem;color:var(--muted);
+    border:1px solid var(--line);border-radius:4px;padding:.25rem .55rem;
+  }
+  .history .chip.latest{color:var(--blue);border-color:var(--blue);}
+
+  .no-serial-note{font-family:var(--font-mono);font-size:.78rem;color:#e8a23d;margin-top:1rem;display:none;}
+  .no-serial-note.show{display:block;}
+
+  /* Test mode */
+  .testmode-toggle{margin-top:1.6rem;}
+  .testmode-toggle summary{
+    cursor:pointer;font-family:var(--font-mono);font-size:.72rem;color:var(--muted);
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .test-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
+  .test-grid button{
+    font-family:var(--font-mono);font-size:.75rem;padding:.4rem .7rem;border-radius:4px;
+    border:1px solid var(--line);background:var(--void);color:var(--ink);cursor:pointer;
+  }
+  .test-grid button:hover{border-color:var(--blue);}
+
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+  footer{padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  footer p{font-family:var(--font-mono);font-size:.75rem;color:var(--muted);margin:0;}
+
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .instrument-grid{grid-template-columns:1fr;}
+    .members{grid-template-columns:repeat(2,1fr);}
+    .readout-row{grid-template-columns:1fr;}
+    .track{grid-template-columns:2rem 1fr;}
+    .track audio{grid-column:1 / -1;width:100%;}
+  }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+}
+
+/* =========================================================
+   DARK BLUE CLOUD DECORATIONS
+========================================================= */
+
+.cloud {
+  position: absolute;
+  width: 180px;
+  height: 55px;
+  background: #315bb5;
+  border-radius: 60px;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(0.5px);
+  box-shadow: 0 8px 25px rgba(23, 70, 199, 0.25);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: #315bb5;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 75px;
+  height: 75px;
+  left: 25px;
+  bottom: 15px;
+}
+
+.cloud::after {
+  width: 95px;
+  height: 95px;
+  right: 25px;
+  bottom: 10px;
+}
+
+/* Individual clouds */
+
+.cloud-1 {
+  top: 120px;
+  left: -70px;
+  transform: scale(1.1);
+  animation: cloudFloat1 9s ease-in-out infinite;
+}
+
+.cloud-2 {
+  top: 300px;
+  right: -70px;
+  transform: scale(0.8);
+  opacity: 0.55;
+  animation: cloudFloat2 12s ease-in-out infinite;
+}
+
+.cloud-3 {
+  top: 700px;
+  left: -90px;
+  transform: scale(0.65);
+  opacity: 0.4;
+  animation: cloudFloat1 14s ease-in-out infinite reverse;
+}
+
+.cloud-4 {
+  top: 1100px;
+  right: -80px;
+  transform: scale(1);
+  opacity: 0.5;
+  animation: cloudFloat2 11s ease-in-out infinite reverse;
+}
+
+.cloud-5 {
+  top: 1600px;
+  left: -70px;
+  transform: scale(0.75);
+  opacity: 0.35;
+  animation: cloudFloat1 13s ease-in-out infinite;
+}
+
+@keyframes cloudFloat1 {
+  0%, 100% {
+    margin-left: 0;
+  }
+
+  50% {
+    margin-left: 25px;
+  }
+}
+
+@keyframes cloudFloat2 {
+  0%, 100% {
+    margin-right: 0;
+  }
+
+  50% {
+    margin-right: 30px;
+  }
+}
+      }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!--
+  This page is built with React, loaded straight from a CDN (no npm,
+  no build step, no node_modules) — Babel Standalone compiles the JSX
+  right in the browser. That means it behaves exactly like a normal
+  HTML file: download it, open it, or upload it to GitHub Pages, and
+  it just works. It does need internet access once (to fetch these
+  three CDN scripts + the Google Fonts above) before it can render.
+-->
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-type="module">
+const { useState, useRef, useEffect, useCallback } = React;
+
+/* =========================================================
+   CONFIG
+========================================================= */
+const NOTE_ORDER = ['C4','D4','E4','F4','G4','A4','B4','C5'];
+const NOTE_COLOR = {
+  C4:'#00e5ff', D4:'#22d3ee', E4:'#38bdf8', F4:'#60a5fa',
+  G4:'#818cf8', A4:'#a78bfa', B4:'#c084fc', C5:'#e879f9'
+};
+const FX_KEYS = ['THUNDERCLAP', 'RAINFALL', 'STATIC'];
+const FX_LABELS = { THUNDERCLAP: 'Thunderclap', RAINFALL: 'Rainfall', STATIC: 'Static Charge' };
+
+/* =========================================================
+   SMALL PRESENTATIONAL COMPONENTS
+========================================================= */
+function BrandMark() {
+  return (
+    <a href="#hero" className="brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" stroke="url(#g1)" strokeWidth="1.5" />
+        <path d="M22 6 L11 22 H18 L16 34 L29 16 H22 L22 6Z" fill="url(#g1)" />
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0%" stopColor="#00e5ff" />
+            <stop offset="100%" stopColor="#e879f9" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span>ELECTRIC BLUE</span>
+    </a>
+  );
+}
+
+function Nav() {
+  return (
+    <header className="nav">
+      <div className="wrap">
+        <BrandMark />
+        <ul className="nav-links">
+          <li><a href="#instrument">Instrument</a></li>
+          <li><a href="#band">Band</a></li>
+          <li><a href="#setlist">Set List</a></li>
+          <li><a href="#console" className="live">Live Console</a></li>
+        </ul>
+      </div>
+    </header>
+  );
+}
+
+function Hero({ wireBgRef }) {
+  return (
+    <section className="hero" id="hero">
+      <svg className="wire-bg" ref={wireBgRef} viewBox="0 0 1100 480" preserveAspectRatio="none" aria-hidden="true">
+        <g stroke="#1c2b40" strokeWidth="1" fill="none">
+          <path d="M0 80 H260 L300 40 H620 L660 80 H1100" />
+          <path d="M0 220 H160 L200 260 H520 L560 220 H880 L920 260 H1100" />
+          <path d="M0 400 H380 L420 360 H760 L800 400 H1100" />
+        </g>
+        <g fill="#00e5ff">
+          <circle cx="300" cy="40" r="3" />
+          <circle cx="620" cy="40" r="3" />
+          <circle cx="200" cy="260" r="3" />
+          <circle cx="560" cy="220" r="3" />
+          <circle cx="420" cy="360" r="3" />
+        </g>
+      </svg>
+      <div className="wrap">
+        <p className="tag">Battle of the Builds · HAcK 2026 · J² Instrument Trials</p>
+        <h1>STORMCASTER</h1>
+        <p className="lede">A one-octave digital instrument built by <strong>Electric Blue</strong> — housed in a hand-built storm-cloud chassis with a lightning-bolt kill switch, born from the same circuit that lights the stage.</p>
+        <div className="hero-ctas">
+          <a href="#console" className="btn primary">Enter Live Console →</a>
+          <a href="#instrument" className="btn">See the Build</a>
+        </div>
+        <div className="edit-note">EDIT: confirm instrument name "Stormcaster" or replace with your team's actual name.</div>
+      </div>
+    </section>
+  );
+}
+
+function FxCard({ tag, name, desc }) {
+  return (
+    <div className="fx-card">
+      <span className="fx-tag">{tag}</span>
+      <div className="fx-name">{name}</div>
+      <div className="fx-desc">{desc}</div>
+    </div>
+  );
+}
+
+function InstrumentSection() {
+  return (
+    <section className="section" id="instrument">
+      <div className="wrap">
+        <p className="eyebrow">The Instrument</p>
+        <h2>Built from the weather, wired for the stage</h2>
+        <p className="intro">Every panel started as a CAD sketch of a storm: a rounded cloud body, a raindrop base, and a lightning-shaped power switch. Underneath, a Raspberry Pi Pico drives eight I2S-synthesized tones across a full octave and reads live volume off an onboard potentiometer.</p>
+
+        <div className="instrument-grid">
+          <div>
+            <div className="photo-slot">
+              <div className="glyph">⛈</div>
+              <span>Add instrument photo — Stormcaster.jpg</span>
+            </div>
+            <ul className="spec-list">
+              <li>Range <b>C4 – C5, one full octave, 8 notes</b></li>
+              <li>Volume control <b>Digital, potentiometer → I2S gain, live</b></li>
+              <li>Enclosure <b>Cloud body / raindrop base / lightning switch</b></li>
+              <li>Brain <b>Raspberry Pi Pico (MicroPython)</b></li>
+              <li>Audio out <b>I2S DAC, 22.05kHz mono</b></li>
+              <li>Data out <b>USB serial → this website, live</b></li>
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow" style={{ marginTop: 0 }}>Sound Profile — 3 Effects</p>
+            <div className="fx-grid" style={{ gridTemplateColumns: '1fr' }}>
+              <FxCard tag="FX 01 · Distortion" name="Thunderclap" desc="A hard-clipped, crackling burst layered under the tone — the sound of the storm hitting." />
+              <FxCard tag="FX 02 · Echo / Delay" name="Rainfall" desc="Repeating, decaying echoes of each note, like rain settling after a strike." />
+              <FxCard tag="FX 03 · Tremolo" name="Static Charge" desc="A fast amplitude flutter that makes the tone flicker like a charged wire." />
+            </div>
+            <div className="edit-note">EDIT: these 3 effects are placeholders. Swap in your real effect names + one-line descriptions once implemented.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MemberCard({ role, bio }) {
+  return (
+    <div className="member">
+      <div className="photo-slot"><span>Photo</span></div>
+      <div className="meta">
+        <div className="name">Member Name</div>
+        <div className="role">{role}</div>
+        <div className="bio">{bio}</div>
+      </div>
+    </div>
+  );
+}
+
+function BandSection() {
+  return (
+    <section className="section" id="band">
+      <div className="wrap">
+        <p className="eyebrow">Meet Electric Blue</p>
+        <h2>The band behind the build</h2>
+         <div className="band-photo">
+          <img 
+            src="band-photo.png" 
+            alt="Electric Blue band members"
+          />
+      </div>
+ 
+        <div className="members">
+          <MemberCard role="Vocals" bio="One line about them — instrument background, why they're on the team." />
+          <MemberCard role="Guitar" bio="One line about them." />
+          <MemberCard role="Drums" bio="One line about them." />
+          <MemberCard role="Stormcaster" bio="Plays the built instrument — one line about them." />
+        </div>
+        <div className="edit-note">EDIT: replace all 4 placeholder members with real names, roles, photos, and bios.</div>
+      </div>
+    </section>
+  );
+}
+
+function TrackRow({ num, title, sub, src }) {
+  return (
+    <div className="track">
+      <div className="num">{num}</div>
+      <div>
+        <div className="title">{title}</div>
+        <div className="sub">{sub}</div>
+      </div>
+      <audio controls src={src}></audio>
+    </div>
+  );
+}
+
+function SetlistSection() {
+  return (
+    <section className="section" id="setlist">
+      <div className="wrap">
+        <p className="eyebrow">Set List</p>
+        <h2>Tonight's tracks</h2>
+        <p className="intro">One main song plus up to two encores, all under seven minutes combined — recorded with the Stormcaster in the mix.</p>
+
+        <TrackRow num="01" title="Song Title" sub="Main set · Original" src="audio/song1.mp3" />
+        <TrackRow num="02" title="Encore Title" sub="Encore 1 · Cover" src="audio/song2.mp3" />
+        <TrackRow num="03" title="Encore Title" sub="Encore 2 · Original" src="audio/song3.mp3" />
+
+        <p className="runtime-note">Total playtime: 00:00 / 7:00 max</p>
+        <div className="edit-note">EDIT: replace song titles + audio/song*.mp3 with your real recordings. Remove a track row if you're doing fewer than 2 encores.</div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   LIVE CONSOLE — the stateful, hardware-facing component
+========================================================= */
+function LiveConsole({ wireBgRef }) {
+  const [connected, setConnected] = useState(false);
+  const [noteReadout, setNoteReadout] = useState('—');
+  const [volume, setVolume] = useState(0);
+  const [history, setHistory] = useState([]);
+  const [fxActive, setFxActive] = useState({ THUNDERCLAP: false, RAINFALL: false, STATIC: false });
+  const [serialSupported, setSerialSupported] = useState(true);
+
+  // Refs mirror state for use inside the animation loop / read loop,
+  // so those long-lived callbacks always see the latest values
+  // without having to restart the loop on every render.
+  const fxActiveRef = useRef(fxActive);
+  const volumeRef = useRef(volume);
+  const canvasRef = useRef(null);
+  const particlesRef = useRef([]);
+  const portRef = useRef(null);
+  const readerRef = useRef(null);
+  const keepReadingRef = useRef(false);
+
+  useEffect(() => { fxActiveRef.current = fxActive; }, [fxActive]);
+  useEffect(() => { volumeRef.current = volume; }, [volume]);
+
+  useEffect(() => {
+    if (!('serial' in navigator)) setSerialSupported(false);
+  }, []);
+
+  const pulseWireBg = useCallback(() => {
+    const el = wireBgRef.current;
+    if (!el) return;
+    el.classList.add('pulse');
+    setTimeout(() => el.classList.remove('pulse'), 180);
+  }, [wireBgRef]);
+
+  const addHistory = useCallback((name) => {
+    setHistory(prev => {
+      const next = [...prev, name];
+      return next.length > 12 ? next.slice(next.length - 12) : next;
+    });
+  }, []);
+
+  const spawnParticle = useCallback((name, vol) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const idx = NOTE_ORDER.indexOf(name);
+    const cw = canvas.width, ch = canvas.height;
+    const xFrac = idx >= 0 ? (idx + 0.5) / NOTE_ORDER.length : 0.5;
+    particlesRef.current.push({
+      x: cw * xFrac,
+      y: ch * 0.5,
+      r: 6,
+      maxR: 30 + (vol || 20) * (cw / 900),
+      alpha: 1,
+      color: NOTE_COLOR[name] || '#00e5ff'
+    });
+  }, []);
+
+  const updateVolume = useCallback((v) => {
+    const clamped = Math.max(0, Math.min(100, v));
+    setVolume(clamped);
+  }, []);
+
+  const triggerNote = useCallback((name, vol) => {
+    if (vol !== undefined && !isNaN(vol)) updateVolume(vol);
+    setNoteReadout(name);
+    pulseWireBg();
+    addHistory(name);
+    spawnParticle(name, vol !== undefined ? vol : volumeRef.current);
+  }, [updateVolume, pulseWireBg, addHistory, spawnParticle]);
+
+  const triggerEffect = useCallback((name, on) => {
+    if (!FX_KEYS.includes(name)) return;
+    setFxActive(prev => ({ ...prev, [name]: on }));
+  }, []);
+
+  /* ---------- Serial protocol parsing ----------
+     DATA,NOTE,<NAME>,ON,<VOL 0-100>
+     DATA,NOTE,<NAME>,OFF
+     DATA,VOL,<VOL 0-100>
+     DATA,FX,<THUNDERCLAP|RAINFALL|STATIC>,<ON|OFF>
+  */
+  const handleLine = useCallback((line) => {
+    if (!line.startsWith('DATA,')) return;
+    const p = line.split(',');
+    if (p[1] === 'NOTE' && p[3] === 'ON') {
+      const vol = p[4] !== undefined ? parseInt(p[4], 10) : volumeRef.current;
+      triggerNote(p[2], isNaN(vol) ? volumeRef.current : vol);
+    } else if (p[1] === 'FX') {
+      triggerEffect(p[2], p[3] === 'ON');
+    } else if (p[1] === 'VOL') {
+      const v = parseInt(p[2], 10);
+      if (!isNaN(v)) updateVolume(v);
+    }
+  }, [triggerNote, triggerEffect, updateVolume]);
+
+  const readLoop = useCallback(async () => {
+    const decoder = new TextDecoderStream();
+    portRef.current.readable.pipeTo(decoder.writable).catch(() => {});
+    const reader = decoder.readable.getReader();
+    readerRef.current = reader;
+    let buffer = '';
+    while (keepReadingRef.current) {
+      let value, done;
+      try {
+        ({ value, done } = await reader.read());
+      } catch (err) {
+        console.error('Read error:', err);
+        break;
+      }
+      if (done) break;
+      buffer += value;
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) handleLine(line.trim());
+    }
+  }, [handleLine]);
+
+  const connectSerial = useCallback(async () => {
+    if (!('serial' in navigator)) {
+      setSerialSupported(false);
+      return;
+    }
+    try {
+      const port = await navigator.serial.requestPort();
+      await port.open({ baudRate: 115200 });
+      portRef.current = port;
+      setConnected(true);
+      keepReadingRef.current = true;
+      readLoop();
+    } catch (err) {
+      console.error('Serial connect failed:', err);
+    }
+  }, [readLoop]);
+
+  const disconnectSerial = useCallback(async () => {
+    keepReadingRef.current = false;
+    try {
+      if (readerRef.current) await readerRef.current.cancel();
+      if (portRef.current) await portRef.current.close();
+    } catch (err) {
+      console.error(err);
+    }
+    setConnected(false);
+  }, []);
+
+  /* ---------- Canvas visualizer loop ---------- */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let rafId;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * devicePixelRatio;
+      canvas.height = rect.height * devicePixelRatio;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function draw() {
+      const cw = canvas.width, ch = canvas.height;
+      if (cw === 0 || ch === 0) { rafId = requestAnimationFrame(draw); return; }
+      const fx = fxActiveRef.current;
+
+      const clearAlpha = fx.RAINFALL ? 0.12 : 1;
+ctx.fillStyle = `rgba(255,255,255,${clearAlpha})`;
+      ctx.fillRect(0, 0, cw, ch);
+
+      let jitterX = 0, jitterY = 0;
+      if (fx.THUNDERCLAP) {
+        jitterX = (Math.random() - 0.5) * 10 * (cw / 900);
+        jitterY = (Math.random() - 0.5) * 6 * (cw / 900);
+      }
+      const tremAlpha = fx.STATIC ? (0.55 + 0.45 * Math.abs(Math.sin(Date.now() / 70))) : 1;
+
+      ctx.save();
+      ctx.globalAlpha = 0.35;
+      ctx.strokeStyle = '#d9e1ec';
+      ctx.lineWidth = 1;
+      NOTE_ORDER.forEach((n, i) => {
+        const x = cw * (i + 0.5) / NOTE_ORDER.length;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, ch);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      particlesRef.current.forEach(p => {
+        ctx.save();
+        ctx.globalAlpha = p.alpha * tremAlpha;
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 18;
+        ctx.arc(p.x + jitterX, p.y + jitterY, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (fx.THUNDERCLAP) {
+          ctx.globalAlpha = 0.25 * p.alpha;
+          ctx.fillStyle = '#ff3b3b';
+          ctx.beginPath();
+          ctx.arc(p.x + jitterX * 2, p.y - jitterY, p.r * 0.9, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+        p.r += (p.maxR - p.r) * 0.12;
+        p.alpha -= fx.RAINFALL ? 0.012 : 0.025;
+      });
+      particlesRef.current = particlesRef.current.filter(p => p.alpha > 0.02);
+
+      rafId = requestAnimationFrame(draw);
+    }
+    rafId = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <section className="section console" id="console">
+      <div className="wrap">
+        <p className="eyebrow">Live Performance</p>
+        <h2>Signal console</h2>
+        <p className="intro">Connect the Stormcaster over USB. Every note, volume change, and effect trigger streams here in real time and drives the visualizer below.</p>
+
+        <div className="console-panel">
+          <div className="console-top">
+            <span className={`status-pill${connected ? ' connected' : ''}`}>
+              <span className="dot"></span>
+              <span>{connected ? 'Connected' : 'Not Connected'}</span>
+            </span>
+            <div className="console-actions">
+              <button className="btn primary" onClick={connectSerial} disabled={connected}>Connect Instrument</button>
+              <button className="btn" onClick={disconnectSerial} disabled={!connected}>Disconnect</button>
+            </div>
+          </div>
+
+          <div className="readout-row">
+            <div className="readout">
+              <div className="label">Current Note</div>
+              <div className="note">{noteReadout}</div>
+            </div>
+            <div className="vol-box">
+              <div className="label">Volume</div>
+              <div className="vol-track"><div className="vol-fill" style={{ width: volume + '%' }}></div></div>
+              <div className="vol-pct">{volume}%</div>
+            </div>
+          </div>
+
+          <canvas ref={canvasRef} aria-label="Live visualizer reacting to notes, volume, and effects" role="img"></canvas>
+
+          <div className="fx-lights">
+            {FX_KEYS.map(key => (
+              <div key={key} className={`fx-light${fxActive[key] ? ' active' : ''}`}>
+                <span className="bulb"></span>{FX_LABELS[key]}
+              </div>
+            ))}
+          </div>
+
+          <p className="label" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--muted)', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: '.6rem' }}>Recent notes</p>
+          <div className="history">
+            {history.map((n, i) => (
+              <span key={i} className={`chip${i === history.length - 1 ? ' latest' : ''}`}>{n}</span>
+            ))}
+          </div>
+
+          {!serialSupported && (
+            <p className="no-serial-note show">Web Serial isn't available in this browser. Use Chrome, Edge, or Opera on desktop to connect the instrument over USB.</p>
+          )}
+
+          <details className="testmode-toggle">
+            <summary>Test Mode — preview visuals without hardware connected</summary>
+            <div className="test-grid">
+              {NOTE_ORDER.map(n => (
+                <button key={n} onClick={() => triggerNote(n, volumeRef.current || 70)}>{n}</button>
+              ))}
+            </div>
+            <div className="test-grid">
+              {FX_KEYS.map(key => (
+                <button key={key} onClick={() => triggerEffect(key, !fxActiveRef.current[key])}>
+                  Toggle {FX_LABELS[key]}
+                </button>
+              ))}
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div className="wrap">
+        <p>Electric Blue · Battle of the Builds · HAcK 2026</p>
+        <p><a href="https://github.com/LilaForsythe/Hack_ElectricBlue_Summer2026">GitHub Repository ↗</a></p>
+      </div>
+    </footer>
+  );
+}
+
+/* =========================================================
+   APP ROOT
+========================================================= */
+function App() {
+  const wireBgRef = useRef(null);
+
+  return (
+    <React.Fragment>
+
+      {/* Floating clouds */}
+      <div className="cloud cloud-1"></div>
+      <div className="cloud cloud-2"></div>
+      <div className="cloud cloud-3"></div>
+      <div className="cloud cloud-4"></div>
+      <div className="cloud cloud-5"></div>
+
+      <Nav />
+      <Hero wireBgRef={wireBgRef} />
+      <InstrumentSection />
+      <BandSection />
+      <SetlistSection />
+      <LiveConsole wireBgRef={wireBgRef} />
+      <Footer />
+
+    </React.Fragment>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+</script>
+</body>
+</html>
+}
