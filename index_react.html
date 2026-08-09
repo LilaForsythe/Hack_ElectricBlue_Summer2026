@@ -799,8 +799,17 @@ function Footer() {
 ========================================================= */
 function App() {
   const wireBgRef = useRef(null);
+
   return (
     <React.Fragment>
+
+      {/* Floating clouds */}
+      <div className="cloud cloud-1"></div>
+      <div className="cloud cloud-2"></div>
+      <div className="cloud cloud-3"></div>
+      <div className="cloud cloud-4"></div>
+      <div className="cloud cloud-5"></div>
+
       <Nav />
       <Hero wireBgRef={wireBgRef} />
       <InstrumentSection />
@@ -808,13 +817,119 @@ function App() {
       <SetlistSection />
       <LiveConsole wireBgRef={wireBgRef} />
       <Footer />
+
     </React.Fragment>
   );
 }
-
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 
 </script>
 </body>
 </html>
+/* =========================================================
+   CLOUD DECORATIONS
+========================================================= */
+
+.cloud {
+  position: absolute;
+  width: 180px;
+  height: 55px;
+  background: #f4f8ff;
+  border-radius: 60px;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(0.2px);
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: #f4f8ff;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 75px;
+  height: 75px;
+  left: 25px;
+  bottom: 15px;
+}
+
+.cloud::after {
+  width: 95px;
+  height: 95px;
+  right: 25px;
+  bottom: 10px;
+}
+
+.cloud-1 {
+  top: 110px;
+  left: -60px;
+  transform: scale(1.1);
+  animation: cloudFloat1 9s ease-in-out infinite;
+}
+
+.cloud-2 {
+  top: 260px;
+  right: -70px;
+  transform: scale(.8);
+  opacity: .7;
+  animation: cloudFloat2 12s ease-in-out infinite;
+}
+
+.cloud-3 {
+  top: 650px;
+  left: -90px;
+  transform: scale(.65);
+  opacity: .55;
+  animation: cloudFloat1 14s ease-in-out infinite reverse;
+}
+
+.cloud-4 {
+  top: 1050px;
+  right: -80px;
+  transform: scale(1);
+  opacity: .65;
+  animation: cloudFloat2 11s ease-in-out infinite reverse;
+}
+
+.cloud-5 {
+  top: 1600px;
+  left: -70px;
+  transform: scale(.75);
+  opacity: .5;
+  animation: cloudFloat1 13s ease-in-out infinite;
+}
+
+@keyframes cloudFloat1 {
+  0%, 100% {
+    transform: translateX(0) scale(1.1);
+  }
+
+  50% {
+    transform: translateX(25px) scale(1.1);
+  }
+}
+
+@keyframes cloudFloat2 {
+  0%, 100% {
+    transform: translateX(0) scale(.8);
+  }
+
+  50% {
+    transform: translateX(-30px) scale(.8);
+  }
+}
