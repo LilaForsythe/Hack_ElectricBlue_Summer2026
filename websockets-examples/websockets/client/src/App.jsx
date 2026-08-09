@@ -135,6 +135,10 @@ function App() {
         <p style={{ fontSize: '18px', marginBottom: '20px' }}>
           Instrument name: STORMCASTER
         </p>
+        <p style={{ fontSize: '16px', marginBottom: '20px'}}>
+          Description: Our theme is weather based as our name is Electric Blue so our instrument shape took inspiration from that.
+          Our instrument is a cloud with playable drops for each note. Each drop triggers a light on the cloud. 
+        </p>
         <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
           Bolts:
         </p>
@@ -173,6 +177,28 @@ function App() {
           </div>
         </div>
 
+
+        <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
+          Members:
+        </p>
+        <div className="member-info-grid">
+          <div className="member-info-cell">
+            <div className="member-info-name">Leah Cheng</div>
+            <div className="member-info-desc">tbd</div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Lila Forsythe</div>
+            <div className="member-info-desc">tbd</div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">David Figueroa</div>
+            <div className="member-info-desc">tbd</div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Thai Phan</div>
+            <div className="member-info-desc">tbd</div>
+          </div>
+        </div>
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
         <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-120px'}} />
       </section>

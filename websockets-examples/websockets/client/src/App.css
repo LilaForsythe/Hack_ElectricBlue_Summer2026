@@ -205,6 +205,32 @@
   color: var(--text-muted, #666);
 }
 
+.member-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.member-info-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.member-info-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.member-info-desc {
+  font-size: 14px;
+  color: var(--text-muted, #666);
+}
+
+
 .bolt { width:100px; opacity:0.0; transition: opacity 0.15s; }
 
 .bolt.active { opacity:1; }
