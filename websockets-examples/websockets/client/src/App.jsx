@@ -146,6 +146,9 @@ function App() {
           Description: Our theme is weather based as our name is Electric Blue so our instrument shape took inspiration from that.
           Our instrument is a cloud with playable drops for each note. Each drop triggers a light on the cloud. 
         </p>
+        <p>
+          Setlist: Twinkle Twinkle Little Star, Happy Birthday
+        </p>
         <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
           Bolts:
         </p>
