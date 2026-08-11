@@ -178,7 +178,8 @@
   margin-left: 0 auto;
 }
 
-.lightning-row { width: 900px; margin: -12px auto 0; display: flex; justify-content: space-between; gap:12px; }
+.lightning-row { width: 900px; margin: -12px auto 0; 
+  display: flex; justify-content: space-between; gap:12px; }
 
 .bolt-info-grid {
   display: grid;

@@ -7,7 +7,7 @@ from datetime import datetime
 # Configuration
 SERIAL_PORT = 'COM7'  # Change to 'COM3' on Windows, '/dev/ttyUSB0' for other boards
 BAUD_RATE = 115200
-WEBSOCKET_URL = 'ws://192.168.50.118:8765'
+WEBSOCKET_URL = 'ws://localhost:8765'
 # ws://localhost:8765
 # ws://192.168.50.118
 
