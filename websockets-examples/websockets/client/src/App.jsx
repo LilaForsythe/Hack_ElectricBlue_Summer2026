@@ -11,6 +11,13 @@ import blue_lightning from './assets/blue_lightning.png'
 import purple_lightning from './assets/purple_lightning.png'
 import magenta_lightning from './assets/magenta_lightning.png'
 import pink_lightning from './assets/pink_lightning.png'
+import teamVideo from './assets/team 10.mp4'
+import Octave from './assets/Octave for stormcaster.mp3'
+import Vibrato from './assets/Vibrato.mp3'
+import Retro from './assets/Retro.mp3'
+import Bubbles from './assets/Bubbles.mp3'
+import Volume from './assets/Volume control.mp3'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -30,6 +37,15 @@ function App() {
     magenta: magenta_lightning,
     pink: pink_lightning
   }
+
+  const audioRefs = {
+    Octave: useRef(null),
+    Vibrato: useRef(null),
+    Retro: useRef(null),
+    Bubbles: useRef(null),
+    Volume: useRef(null)  
+  }
+
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -187,6 +203,46 @@ function App() {
           </div>
         </div>
 
+      <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
+          Sounds:
+        </p>
+        <div className="sound-info-grid">
+          <div className="member-info-cell">
+            <div className="member-info-name">Octave</div>
+            <div className="member-info-desc">
+              <audio ref={audioRefs.Octave} src={Octave} />
+              <button onClick={() => audioRefs.Octave.current.play()}>play</button>
+            </div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Vibrato</div>
+            <div className="member-info-desc">
+              <audio ref={audioRefs.Vibrato} src={Vibrato} />
+              <button onClick={() => audioRefs.Vibrato.current.play()}>play</button>
+            </div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Retro</div>
+            <div className="member-info-desc">
+              <audio ref={audioRefs.Retro} src={Retro} />
+              <button onClick={() => audioRefs.Retro.current.play()}>play</button>
+            </div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Bubbles</div>
+            <div className="member-info-desc">
+              <audio ref={audioRefs.Bubbles} src={Bubbles} />
+              <button onClick={() => audioRefs.Bubbles.current.play()}>play</button>
+            </div>
+          </div>
+          <div className="member-info-cell">
+            <div className="member-info-name">Volume Control</div>
+            <div className="member-info-desc">
+              <audio ref={audioRefs.Volume} src={Volume} />
+              <button onClick={() => audioRefs.Volume.current.play()}>play</button>
+            </div>
+          </div>
+        </div>
 
         <p style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
           Members:
@@ -211,6 +267,13 @@ function App() {
         </div>
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
         <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
+        <section className="video-section">
+          <h2>Team 10 Video</h2>
+          <video controls width="640" preload="metadata">
+            <source src={teamVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </section>
       </section>
       <section className="cloud-section">
             <img src={cloud_img} alt="Cloud" style={{ width: '1000px', height: 'auto', marginBottom: '-132px'}} />
