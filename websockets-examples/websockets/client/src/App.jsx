@@ -24,8 +24,13 @@ function App() {
   const [message, setMessage] = useState('')
   const [chatLogs, setChatLogs] = useState([])
   const wsRef = useRef(null)
+  const videoRef = useRef(null)
   const [currentBolt, setCurrentBolt] = useState(null)
   const timerRef = useRef(null)
+
+  useEffect(() => {
+    console.log('videoRef on mount', videoRef.current)
+  }, [])
 
   const boltColors = {
     red: red_lightning,
@@ -268,11 +273,39 @@ function App() {
         <img src={teamLogo} alt="Team Logo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
         <img src={teamPhoto} alt="Team Photo" style={{ width: '300px', height: 'auto', marginBottom: '-50px'}} />
         <section className="video-section">
-          <h2>Team 10 Video</h2>
-          <video controls width="640" preload="metadata">
+          <h2>Performance Video</h2>
+          <video
+            ref={videoRef}
+            controls
+            width="640"
+            preload="metadata"
+            muted={false}
+            onLoadedMetadata={() => {
+              console.log('Video duration', videoRef.current?.duration)
+              console.log('Audio track count', videoRef.current?.audioTracks?.length)
+              console.log('videoRef muted', videoRef.current?.muted)
+              console.log('videoRef volume', videoRef.current?.volume)
+            }}
+            onPlay={() => console.log('video onPlay', { muted: videoRef.current?.muted, volume: videoRef.current?.volume })}
+            onPause={() => console.log('video onPause')}
+            onError={(e) => console.error('Video playback error', e)}
+          >
             <source src={teamVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          <div style={{ marginTop: '12px' }}>
+            <button onClick={() => videoRef.current?.play()}>Play</button>
+            <button onClick={() => videoRef.current?.pause()}>Pause</button>
+            <button onClick={() => {
+              if (videoRef.current) {
+                videoRef.current.muted = false
+                videoRef.current.volume = 1
+                console.log('Unmuted video; volume set to', videoRef.current.volume)
+              }
+            }}>
+              Unmute
+            </button>
+          </div>
         </section>
       </section>
       <section className="cloud-section">
