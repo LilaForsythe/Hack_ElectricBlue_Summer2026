@@ -4,7 +4,7 @@ import struct
 from machine import I2S, Pin, ADC
 from utime import sleep_ms
 
-# --- Configuration Constants ---
+# buttons
 BUTTONC4_PIN = 3  # Pin GP3 (Physical Pin 5)
 BUTTOND4_PIN = 4  # Pin GP4 (Physical Pin 6)
 BUTTONE4_PIN = 5  # Pin GP5 (Physical Pin 7)
@@ -14,8 +14,8 @@ BUTTONA4_PIN = 8  # Pin GP8 (Physical Pin 11)
 BUTTONB4_PIN = 9  # Pin GP9 (Physical Pin 12)
 BUTTONC5_PIN = 10 # Pin GP10 (Physical Pin 14)
 
-# Effect Switches
-WAV_SWITCH_PIN = 17 # Pin GP17 (Physical Pin 22) - Switch for WAV file playback
+# sound effect switches
+WAV_SWITCH_PIN = 17 # Pin GP17 (Physical Pin 22) bubbles
 VIBRATO_PIN = 18    # Pin GP18 (Physical Pin 24)
 BITCRUSH_PIN = 19   # Pin GP19 (Physical Pin 25)
 
@@ -32,7 +32,7 @@ MAX_AMPLITUDE = 28000
 
 print("[SYSTEM] Initializing Hardware...")
 
-# --- Hardware Initialization ---
+# button initialization
 buttonC4 = Pin(BUTTONC4_PIN, Pin.IN, Pin.PULL_UP)
 buttonD4 = Pin(BUTTOND4_PIN, Pin.IN, Pin.PULL_UP)
 buttonE4 = Pin(BUTTONE4_PIN, Pin.IN, Pin.PULL_UP)
@@ -42,7 +42,7 @@ buttonA4 = Pin(BUTTONA4_PIN, Pin.IN, Pin.PULL_UP)
 buttonB4 = Pin(BUTTONB4_PIN, Pin.IN, Pin.PULL_UP)
 buttonC5 = Pin(BUTTONC5_PIN, Pin.IN, Pin.PULL_UP)
 
-# --- LED Setup Dictionary ---
+# LED dictionary
 leds = {
     "C4": Pin(11, Pin.OUT), # GP11 (Pin 15)
     "D4": Pin(12, Pin.OUT), # GP12 (Pin 16)
@@ -54,7 +54,7 @@ leds = {
     "C5": Pin(22, Pin.OUT)  # GP22 (Pin 29)
 }
 
-# Ensure all LEDs start off
+# LEDs are off at start
 for led in leds.values():
     led.off()
 
@@ -83,8 +83,7 @@ notes = {
     "G4": 392.00, "A4": 440.00, "B4": 493.88, "C5": 523.25
 }
 
-def get_volume():
-    """Averaged read to smooth out ADC/contact noise, tuned for 1k pot curve."""
+def get_volume(): #averages 12 samples, one every second, to reduce inconsistent volume levels at the same potentiometer position.
     num_samples = 12
     readings = []
     for _ in range(num_samples):
@@ -106,8 +105,7 @@ def get_volume():
     scaled = (raw_adc - min_floor) / (max_ceiling - min_floor)
     return int(scaled * MAX_AMPLITUDE)
 
-def play_wav_file(filename):
-    """Streams WAV data across the permanent I2S channel."""
+def play_wav_file(filename): #checks pico for file named sound.wav and plays it incremently through i2s channel. 
     if filename not in os.listdir():
         print(f"[ERROR] '{filename}' not found on storage!")
         return
@@ -134,8 +132,7 @@ def play_i2s_tone(frequency, duration_ms, volume, vibrato=False, bitcrush=False)
             audio_out.write(silence)
         return
 
-    # --- FAST PATH: Used when vibrato is off to guarantee zero CPU lag/stutter ---
-    if not vibrato:
+    if not vibrato: #checks to see if vibrato sound effect is on/off, if it's off it plays normally unless the bitcrush switch is on
         samples_per_cycle = int(SAMPLE_RATE / frequency)
         cycle_buffer = bytearray()
         for i in range(samples_per_cycle):
@@ -154,8 +151,7 @@ def play_i2s_tone(frequency, duration_ms, volume, vibrato=False, bitcrush=False)
             audio_out.write(cycle_buffer)
             bytes_written += len(cycle_buffer)
 
-    # --- VIBRATO PATH: Active pitch warbling ---
-    else:
+    else: #since this is the only other switch and possibility, by default it plays the vibration effect, including bitcrush if that switch is on
         total_samples = int((duration_ms / 1000) * SAMPLE_RATE)
         total_bytes = total_samples * 2
         bytes_written = 0
@@ -215,12 +211,12 @@ wav_played_once = False
 
 while True:
     try:
-        # Read current switch states
+        # reads switch state
         is_wav_mode = not switch_wav.value()
         is_vibrato = not switch_vibrato.value()
         is_bitcrushed = not switch_bitcrush.value()
 
-        # Print if a switch state changed
+        # updates if switch state changes
         if is_wav_mode != prev_wav_mode:
             print(f"[SWITCH] WAV Mode changed to: {'ON' if is_wav_mode else 'OFF'}")
             prev_wav_mode = is_wav_mode
@@ -233,7 +229,7 @@ while True:
             print(f"[SWITCH] Bitcrush Distortion changed to: {'ON' if is_bitcrushed else 'OFF'}")
             prev_bitcrushed = is_bitcrushed
 
-        # Check for active button press
+        # is there a button press
         active_btn = None
         for btn, name, freq, color in note_buttons:
             if not btn.value():
@@ -247,7 +243,7 @@ while True:
             print(f"[ACTION] Note Played: {name} ({freq} Hz) | Volume level: {vol}")
             print(f"{color}")
             
-            # Turn on the corresponding LED
+            # turn on LED if button pressed
             print(f"   -> [LED] {name} is played, turning LED ON")
             leds[name].on()
 
@@ -260,22 +256,22 @@ while True:
             else:
                 wav_played_once = False
                 
-                # Initial note attack
+                # plays note
                 print("   -> [SYNTH] Playing initial note attack (300ms)")
                 play_i2s_tone(freq, 300, vol, vibrato=is_vibrato, bitcrush=is_bitcrushed)
 
-                # Sustain loop
+                # play as long as button is held
                 if not btn.value():
                     print("   -> [SYNTH] Button held down - sustaining note...")
                 while not btn.value():
                     vol = get_volume()
                     play_i2s_tone(freq, 100, vol, vibrato=is_vibrato, bitcrush=is_bitcrushed)
 
-                # Note release
+                # button is released 
                 print(f"[ACTION] Note {name} released.")
                 play_i2s_tone(0, 10, 0, vibrato=is_vibrato, bitcrush=is_bitcrushed)
 
-            # Cleanup after release
+            # cleans after note is played
             print(f"   -> [LED] Note released, turning {name} LED OFF")
             leds[name].off()
             

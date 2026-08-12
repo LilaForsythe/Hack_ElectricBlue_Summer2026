@@ -3,8 +3,8 @@ import math
 import struct
 from machine import I2S, Pin, ADC
 from utime import sleep_ms
+#mix of original code and ai (it started off original but modified multiple times with ai)
 
-# --- Configuration Constants ---
 BUTTONC4_PIN = 3  # Pin GP3 (Physical Pin 5)
 BUTTOND4_PIN = 4  # Pin GP4 (Physical Pin 6)
 BUTTONE4_PIN = 5  # Pin GP5 (Physical Pin 7)
@@ -24,7 +24,7 @@ SAMPLE_RATE = 22050
 BUFFER_SIZE = 2048   
 MAX_AMPLITUDE = 28000 
 
-# --- Hardware Initialization ---
+
 buttonC4 = Pin(BUTTONC4_PIN, Pin.IN, Pin.PULL_UP)
 buttonD4 = Pin(BUTTOND4_PIN, Pin.IN, Pin.PULL_UP)
 buttonE4 = Pin(BUTTONE4_PIN, Pin.IN, Pin.PULL_UP)

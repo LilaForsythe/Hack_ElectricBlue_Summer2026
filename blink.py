@@ -4,7 +4,7 @@ from utime import sleep_ms
 
 # --- Configuration Constants ---
 BUTTON_PIN = 3  # Pin GP3 (Physical Pin 5)
-LED_PIN = 16    # GPIO 16 (Physical Pin 21) - 100% Verified!
+LED_PIN = 16    # GPIO 16 (Physical Pin 21)
 
 SCK_PIN = 0     # BCLK on GP0 (Physical Pin 1)
 WS_PIN = 1      # LRC/WS on GP1 (Physical Pin 2)
@@ -12,7 +12,7 @@ SD_PIN = 2      # DIN on GP2 (Physical Pin 4)
 
 WAV_FILE = "sound.wav"
 BUFFER_SIZE = 10240  # 10KB static buffer allocation
-
+#documented in ai bibliography - used to test if speaker was working at beginning of project
 # --- Hardware Initialization ---
 button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
 led = Pin(LED_PIN, Pin.OUT)  # Configure GPIO 16 as a digital output

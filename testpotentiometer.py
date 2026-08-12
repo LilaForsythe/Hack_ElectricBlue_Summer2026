@@ -4,7 +4,7 @@ from utime import sleep_ms
 pot = ADC(Pin(27)) # GP27 / Physical Pin 32
 
 print("Testing Potentiometer on GP27. Press Ctrl+C to stop.")
-
+# ai - reads the 16 bit values up to 65535 for the potentiometer and loops every 150ms
 while True:
     try:
         raw_adc = pot.read_u16() # Raw value from 0 to 65535

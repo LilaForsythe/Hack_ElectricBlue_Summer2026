@@ -4,7 +4,7 @@ import struct
 from machine import I2S, Pin, ADC
 from utime import sleep_ms
 
-# --- Configuration Constants ---
+
 BUTTONC4_PIN = 3  # Pin GP3 (Physical Pin 5)
 BUTTOND4_PIN = 4  # Pin GP4 (Physical Pin 6)
 BUTTONE4_PIN = 5  # Pin GP5 (Physical Pin 7)
@@ -14,7 +14,6 @@ BUTTONA4_PIN = 8  # Pin GP8 (Physical Pin 11)
 BUTTONB4_PIN = 9  # Pin GP9 (Physical Pin 12)
 BUTTONC5_PIN = 10 # Pin GP10 (Physical Pin 14)
 
-# Effect Switches
 WAV_SWITCH_PIN = 17 # Pin GP17 (Physical Pin 22) - Switch for WAV file playback
 VIBRATO_PIN = 18    # Pin GP18 (Physical Pin 24)
 BITCRUSH_PIN = 19   # Pin GP19 (Physical Pin 25)

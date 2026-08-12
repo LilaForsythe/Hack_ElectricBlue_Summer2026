@@ -1,6 +1,6 @@
 from machine import Pin, ADC, PWM
 import time
-
+#ai used to test potentiometer readings as volume change was iffy
 adc = ADC(Pin(27))  # GP27 (Physical Pin 31) for analog input
 
 led = PWM(Pin(28))  # Onboard LED on GP28 (Physical Pin 34)
